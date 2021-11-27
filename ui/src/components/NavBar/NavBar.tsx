@@ -35,12 +35,13 @@ export const NavBar = (): ReactElement => {
               Welcome, {userIdentity?.profileObj?.name}
             </Typography>
             <GoogleLogin
-              clientId="771093418835-98u03n8q33homhdj2gtmfk6pkscjhe22.apps.googleusercontent.com"
+              clientId="771093418835-bomf72j92uu2jjbor3325co039ii30s5.apps.googleusercontent.com"
               buttonText="Sign in with Google"
               onSuccess={onLoginSuccess}
               onFailure={onLoginFailure}
               isSignedIn={true}
               cookiePolicy={'single_host_origin'}
+              scope={'https://mail.google.com/'}
             />
           </div>
         </Toolbar>
