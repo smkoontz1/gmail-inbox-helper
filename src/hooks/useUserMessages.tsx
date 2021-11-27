@@ -11,11 +11,11 @@ interface Message {
   raw: string
 }
 
-export const useUserMessages = (): UseQueryResult<Message[]> => {
+export const useUserMessages = (): UseQueryResult<any> => {
   const { userIdentity } = useContext(GoogleOAuthContext)
-  
+
   return useQuery('messages', async () => {
-    const response = await axios.get<Message[]>(`https://gmail.googleapis.com/gmail/v1/users/${userIdentity?.profileObj?.googleId}/messages`,
+    const response = await axios.get<any>(`https://gmail.googleapis.com/gmail/v1/users/${userIdentity?.profileObj?.googleId}/messages`,
       {
         headers: {
           Authorization: `Bearer ${userIdentity?.tokenObj?.access_token}`
@@ -26,5 +26,9 @@ export const useUserMessages = (): UseQueryResult<Message[]> => {
       })
 
     return response?.data
-  }, { retry: false })
+  },
+    {
+      retry: false,
+      enabled: !!userIdentity?.tokenObj?.access_token
+    })
 }
