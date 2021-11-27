@@ -15,6 +15,6 @@ export const useGoogleOAuthContext = (): GoogleOAuthContext => {
 
   return {
     userIdentity,
-    setUserIdentity,
+    setNewUserIdentity,
   }
 }

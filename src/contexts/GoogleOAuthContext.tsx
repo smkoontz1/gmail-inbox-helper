@@ -26,10 +26,10 @@ export interface GoogleUserIdentity {
 
 export interface GoogleOAuthContext {
   userIdentity: GoogleUserIdentity
-  setUserIdentity: (newUserIdentity: GoogleUserIdentity) => void
+  setNewUserIdentity: (newUserIdentity: GoogleUserIdentity) => void
 }
 
 export const GoogleOAuthContext = React.createContext<GoogleOAuthContext>({
   userIdentity: {} as GoogleUserIdentity,
-  setUserIdentity: () => {}
+  setNewUserIdentity: () => {}
 })

@@ -9,14 +9,14 @@ import {
 import { GoogleOAuthContext } from '../../contexts/GoogleOAuthContext'
 
 export const NavBar = (): ReactElement => {
-  const { userIdentity, setUserIdentity } = useContext(GoogleOAuthContext)
+  const { userIdentity, setNewUserIdentity } = useContext(GoogleOAuthContext)
 
   const onLoginSuccess = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ) => {
     console.log(response)
     const { profileObj, tokenObj } = response as GoogleLoginResponse
-    setUserIdentity({ profileObj, tokenObj })
+    setNewUserIdentity({ profileObj, tokenObj })
   }
 
   const onLoginFailure = (error: any) => {
@@ -35,7 +35,7 @@ export const NavBar = (): ReactElement => {
               Welcome, {userIdentity?.profileObj?.name}
             </Typography>
             <GoogleLogin
-              clientId="CLIENT_ID.apps.googleusercontent.com"
+              clientId="771093418835-98u03n8q33homhdj2gtmfk6pkscjhe22.apps.googleusercontent.com"
               buttonText="Sign in with Google"
               onSuccess={onLoginSuccess}
               onFailure={onLoginFailure}
