@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npm run build && node ./dist/server.js",
+    "start": "npm run build && node ./dist/src/server.js",
     "build": "rm -rf ./dist && tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,7 +13,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongodb": "^4.2.0"
+    "mongodb": "^4.2.0",
+    "mongoose": "^6.0.13"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
