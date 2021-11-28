@@ -37,9 +37,11 @@ export const NavBar = (): ReactElement => {
             <GoogleLogin
               clientId="771093418835-bomf72j92uu2jjbor3325co039ii30s5.apps.googleusercontent.com"
               buttonText="Sign in with Google"
+              accessType="offline"
+              responseType="code"
               onSuccess={onLoginSuccess}
               onFailure={onLoginFailure}
-              isSignedIn={true}
+              // isSignedIn={true}
               cookiePolicy={'single_host_origin'}
               scope={'https://mail.google.com/'}
             />
