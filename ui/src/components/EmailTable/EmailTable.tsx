@@ -2,6 +2,7 @@ import { ReactElement, useContext } from 'react'
 import { GoogleOAuthContext } from '../../contexts/GoogleOAuthContext'
 import { useUserMessages } from '../../hooks/useUserMessages'
 import axios from 'axios'
+import { useHelloWorld } from '../../hooks/useHelloWorld'
 
 interface Message {
   id: string
@@ -12,11 +13,15 @@ interface Message {
 }
 
 export const EmailTable = (): ReactElement => {
-  const { data, isError, isLoading } = useUserMessages()
+  // const { data, isError, isLoading } = useUserMessages()
+  const { data } = useHelloWorld()
 
-  console.log(data)
+  // console.log(data)
 
   return (
-    <p>{isLoading ? '' : JSON.stringify(data)}</p>
+    <p>{data}</p>
   )
+  // return (
+  //   <p>{isLoading ? '' : JSON.stringify(data)}</p>
+  // )
 }
