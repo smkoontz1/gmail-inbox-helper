@@ -5,10 +5,10 @@ import cors from 'cors'
 import mongoose, { Schema } from 'mongoose'
 import { mockEmails, MessageDTO } from '../test_data/mockData'
 import { rootHandler } from './lib/routeHandlers/rootHandler'
-import {
-  tokensHandler,
-} from './lib/routeHandlers/tokensHandler'
-import { downloadHandler } from './lib/routeHandlers/emails/downloadHandler'
+import { tokensHandler } from './lib/routeHandlers/tokensHandler'
+import { downloadHandler } from './lib/routeHandlers/emails/download/downloadHandler'
+import { logToLogFile } from './lib/util/logUtil'
+import { emailsHandler } from './lib/routeHandlers/emails/emailsHandler'
 
 main().catch(console.error)
 
@@ -40,9 +40,12 @@ async function main() {
 
   app.get('/', rootHandler)
   app.get('/tokens', tokensHandler)
+  app.get('/emails', emailsHandler)
   app.post('/emails/download', downloadHandler)
 
   app.use((err: Error, req: Request, res: Response, next: unknown) => {
+    logToLogFile(`\n\n${err.stack}\n\n`)
+    
     console.error(err.stack)
     res.status(500).send('Lol, whoops.')
   })
@@ -50,24 +53,4 @@ async function main() {
   app.listen(port, () => {
     console.log(`Express server listening at http://localhost:${port}`)
   })
-
-  // for (const email of mockEmails) {
-  //   const { id, messageTo, messageFrom, subject, snippet, dateSent } = email
-
-  //   let sender = await Sender.findOne({ fromAddress: messageFrom })
-  //   if (!sender) {
-  //     sender = await Sender.create({ fromAddress: messageFrom })
-  //   }
-
-  //   const createdEmail = await Email.create({
-  //     messageId: id,
-  //     messageTo,
-  //     messageFrom: sender._id,
-  //     subject,
-  //     snippet,
-  //     dateSent,
-  //   })
-
-  //   await sender.updateOne({ $push: { emails: createdEmail } })
-  // }
 }

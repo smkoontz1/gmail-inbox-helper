@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
-import { getGoogleOAuthClient } from '../../google/apiClient'
+import { getGoogleOAuthClient } from '../../../google/apiClient'
 import { google } from 'googleapis'
+import { saveEmailMessage } from '../../../util/mongoUtil'
+import { logToLogFile } from '../../../util/logUtil'
 
 export const downloadHandler = async (req: Request, res: Response) => {
   const accessToken = req.headers.authorization?.replace('Bearer', '').trim()
@@ -16,11 +18,9 @@ export const downloadHandler = async (req: Request, res: Response) => {
     auth: oauthClient,
   })
 
-  // const numPagesToFetch = 2
-
   const messageList = await gmail.users.messages.list({
     userId: 'me',
-    maxResults: 10,
+    maxResults: 500,
   })
 
   const messagePromises = messageList.data.messages?.map(async (message) => {
@@ -35,7 +35,14 @@ export const downloadHandler = async (req: Request, res: Response) => {
   if (messagePromises) {
     const messages = await Promise.all(messagePromises)
 
-    
+    for (const message of messages) {
+      console.info('Processing message: ', message.id)
+      try {
+        await saveEmailMessage(message)
+      } catch (err) {
+        logToLogFile(`Error processing message: ${message.id}`)
+      }
+    }
 
     res.sendStatus(200)
   } else {
