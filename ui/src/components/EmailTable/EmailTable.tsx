@@ -30,14 +30,20 @@ export const EmailTable = (): ReactElement => {
       {downloadEmails.isLoading ? (
         <CircularProgress />
       ) : (
-        <Button
-          variant="contained"
-          onClick={() => {
-            downloadEmails.mutate()
-          }}
-        >
-          Download Emails
-        </Button>
+        <>
+          {downloadEmails.isError ? (
+            <p>Error</p>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={() => {
+                downloadEmails.mutate()
+              }}
+            >
+              Download Emails
+            </Button>
+          )}
+        </>
       )}
     </Box>
   )

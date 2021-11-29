@@ -4,9 +4,7 @@ interface ClientStore {
   client: Common.OAuth2Client
 }
 
-const clientStore: ClientStore = {
-  client: {} as Common.OAuth2Client
-}
+const clientStore: ClientStore = {} as ClientStore
 
 export const getGoogleOAuthClient = (): Common.OAuth2Client => {
   if (clientStore.client) {
@@ -16,7 +14,7 @@ export const getGoogleOAuthClient = (): Common.OAuth2Client => {
   const oauth2Client = new Common.OAuth2Client(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    'http://localhost:3000',
+    'http://localhost:3000'
   )
 
   oauth2Client.on('tokens', (tokens) => {

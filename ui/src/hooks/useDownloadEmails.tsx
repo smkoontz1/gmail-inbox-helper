@@ -5,7 +5,7 @@ import { GoogleOAuthContext } from '../contexts/GoogleOAuthContext'
 
 export const useDownloadEmails = () => {
   const { userIdentity } = useContext(GoogleOAuthContext)
-  const token = userIdentity?.tokenObj?.access_token
+  const token = userIdentity.tokenObj.access_token
 
   return useMutation(() => {
     return axios.post(

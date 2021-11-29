@@ -4,7 +4,6 @@ import {
   GoogleLogin,
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
-  GoogleLogout,
 } from 'react-google-login'
 import { GoogleOAuthContext } from '../../contexts/GoogleOAuthContext'
 
