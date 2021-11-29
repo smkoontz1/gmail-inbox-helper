@@ -3,6 +3,8 @@ import { GoogleOAuthContext } from '../../contexts/GoogleOAuthContext'
 import { useUserMessages } from '../../hooks/useUserMessages'
 import axios from 'axios'
 import { useHelloWorld } from '../../hooks/useHelloWorld'
+import { useDownloadEmails } from '../../hooks/useDownloadEmails'
+import { Box, Button, CircularProgress } from '@mui/material'
 
 interface Message {
   id: string
@@ -13,15 +15,30 @@ interface Message {
 }
 
 export const EmailTable = (): ReactElement => {
-  // const { data, isError, isLoading } = useUserMessages()
-  const { data } = useHelloWorld()
-
-  // console.log(data)
+  // const { data, isError, isLoading } = useUserEmails()
+  const downloadEmails = useDownloadEmails()
 
   return (
-    <p>{data}</p>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '300px',
+      }}
+    >
+      {downloadEmails.isLoading ? (
+        <CircularProgress />
+      ) : (
+        <Button
+          variant="contained"
+          onClick={() => {
+            downloadEmails.mutate()
+          }}
+        >
+          Download Emails
+        </Button>
+      )}
+    </Box>
   )
-  // return (
-  //   <p>{isLoading ? '' : JSON.stringify(data)}</p>
-  // )
 }

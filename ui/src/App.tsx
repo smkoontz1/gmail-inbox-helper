@@ -15,7 +15,11 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <GoogleOAuthContext.Provider value={googleOAuth}>
           <NavBar />
-          <EmailTable />
+          {googleOAuth.userIdentity ? (
+            <EmailTable />
+          ) : (
+            <p>Not Authed. Reload</p>
+          )}
         </GoogleOAuthContext.Provider>
       </QueryClientProvider>
     </div>
