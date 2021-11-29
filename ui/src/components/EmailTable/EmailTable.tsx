@@ -1,21 +1,48 @@
 import { ReactElement, useContext } from 'react'
 import { GoogleOAuthContext } from '../../contexts/GoogleOAuthContext'
 import { useUserMessages } from '../../hooks/useUserMessages'
+import { useSenders } from '../../hooks/useSenders'
 import axios from 'axios'
 import { useHelloWorld } from '../../hooks/useHelloWorld'
 import { useDownloadEmails } from '../../hooks/useDownloadEmails'
 import { Box, Button, CircularProgress } from '@mui/material'
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid'
+import { SenderResponse } from '../../types/responses/Sender'
 
-interface Message {
+const columns: GridColDef[] = [
+  {
+    field: 'fromAddress' as keyof SenderResponse,
+    headerName: 'Sender',
+    width: 400,
+  },
+  {
+    field: 'emailCount' as keyof SenderResponse,
+    headerName: 'Count',
+    width: 100,
+  },
+]
+
+const getRows = (senders: SenderResponse[]): {
   id: string
-  snippet: string
-  payload: unknown
-  sizeEstimate: number
-  raw: string
+  fromAddress: string
+  emailCount: number
+}[] => {
+  return senders.map((sender) => {
+    return {
+      id: sender.fromAddress,
+      fromAddress: sender.fromAddress,
+      emailCount: sender.emailCount
+    }
+  })
 }
 
 export const EmailTable = (): ReactElement => {
   // const { data, isError, isLoading } = useUserEmails()
+  const {
+    data: sendersData,
+    isError: isSendersError,
+    isLoading: isSendersLoading,
+  } = useSenders()
   const downloadEmails = useDownloadEmails()
 
   return (
@@ -24,10 +51,10 @@ export const EmailTable = (): ReactElement => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '300px',
+        height: 800,
       }}
     >
-      {downloadEmails.isLoading ? (
+      {/* {downloadEmails.isLoading ? (
         <CircularProgress />
       ) : (
         <>
@@ -44,6 +71,16 @@ export const EmailTable = (): ReactElement => {
             </Button>
           )}
         </>
+      )} */}
+      {isSendersLoading ? (
+        <></>
+      ) : (
+        <DataGrid
+          rows={getRows(sendersData || [])}
+          columns={columns}
+          checkboxSelection
+          disableSelectionOnClick
+        />
       )}
     </Box>
   )

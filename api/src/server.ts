@@ -2,13 +2,12 @@ require('dotenv').config()
 
 import express, { Request, Response } from 'express'
 import cors from 'cors'
-import mongoose, { Schema } from 'mongoose'
-import { mockEmails, MessageDTO } from '../test_data/mockData'
+import mongoose from 'mongoose'
 import { rootHandler } from './lib/routeHandlers/rootHandler'
 import { tokensHandler } from './lib/routeHandlers/tokensHandler'
 import { downloadHandler } from './lib/routeHandlers/emails/download/downloadHandler'
 import { logToLogFile } from './lib/util/logUtil'
-import { emailsHandler } from './lib/routeHandlers/emails/emailsHandler'
+import { sendersHandler } from './lib/routeHandlers/sendersHandler'
 
 main().catch(console.error)
 
@@ -40,7 +39,7 @@ async function main() {
 
   app.get('/', rootHandler)
   app.get('/tokens', tokensHandler)
-  app.get('/emails', emailsHandler)
+  app.get('/senders', sendersHandler)
   app.post('/emails/download', downloadHandler)
 
   app.use((err: Error, req: Request, res: Response, next: unknown) => {
